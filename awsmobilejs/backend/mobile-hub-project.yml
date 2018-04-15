@@ -1,0 +1,48 @@
+--- !com.amazonaws.mobilehub.v0.Project 
+features:
+  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
+    components:
+      sampleCloudApi: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: sampleCloudApi
+          requires-signin: false
+          sdk-generation-stage-name: Development
+        paths:
+          /items: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/sampleLambda-20180414203531.zip
+            description: 'Handler for calls to resource path : /items/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: 8Tyls2zk8gNLmiObjFO9rpfZ7d4G4NRvYGoQxx4z5Ns=
+            memorySize: '128'
+            modified: '2018-04-15T03:35:59.124+0000'
+            name: sampleLambda
+            runtime: nodejs6.10
+            timeout: '3'
+            version: 2ZVwtFeKLRijlLznCJKj2F7dLgYaTccI
+          '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/sampleLambda-20180414203531.zip
+            description: 'Handler for calls to resource path : /items/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: 8Tyls2zk8gNLmiObjFO9rpfZ7d4G4NRvYGoQxx4z5Ns=
+            memorySize: '128'
+            modified: '2018-04-15T03:35:59.124+0000'
+            name: sampleLambda
+            runtime: nodejs6.10
+            timeout: '3'
+            version: BcsjCiusjT4mCWt0kRDpriOVnV_Q1aA9
+  content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
+    attributes:
+      enabled: true
+      visibility: public-global
+    components:
+      release: !com.amazonaws.mobilehub.v0.Bucket {}
+  mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
+    components:
+      analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
+  sign-in: !com.amazonaws.mobilehub.v0.SignIn {}
+name: hostess-mostess-2018-04-14-15-49-59
+region: us-east-1
