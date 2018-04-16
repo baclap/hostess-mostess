@@ -17,3 +17,16 @@ API.get(apiName, path, myInit)
     .catch(err => {
         console.error(err);
     });
+
+function handleUploadClick() {
+    const uploadFileInput = document.createElement('input');
+    uploadFileInput.type = 'file';
+    uploadFileInput.accept = '.zip';
+    uploadFileInput.addEventListener('change', (event) => {
+        console.log(event);
+    });
+    uploadFileInput.click();
+}
+
+const uploadButton = document.querySelector('.upload-file-button');
+uploadButton.addEventListener('click', handleUploadClick);
