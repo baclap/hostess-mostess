@@ -1,22 +1,25 @@
 import './style.css';
 // looks like amplify assumes we'll transpile their code...
-import Amplify, { API } from 'aws-amplify/dist/aws-amplify';
+import Amplify, { API, Storage } from 'aws-amplify/dist/aws-amplify';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 
-const apiName = 'sampleCloudApi';
-const path = '/items/test';
-const myInit = {
-    headers: {},
-    response: true
-};
-API.get(apiName, path, myInit)
-    .then(response => {
-        console.log(response)
-    })
-    .catch(err => {
-        console.error(err);
-    });
+// const file = event.target.files[0];
+// console.log('File:', file);
+// Storage.put(file.name, file)
+//     .then (res => {
+//         console.log('S3 Response:', res);
+//         const init = {
+//             headers: {},
+//             body: { key: res.key },
+//             response: true
+//         }
+//         return API.post('processZip', '/process-zip', init)
+//             .then(res => {
+//                 console.log('Lambda Response:', res)
+//             });
+//     })
+//     .catch(err => console.log(err));
 
 function handleUploadClick() {
     const uploadFileInput = document.createElement('input');
