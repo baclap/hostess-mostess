@@ -9,31 +9,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /process-zip: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/processZip-20180421154811.zip
+            codeFilename: uploads/processZip-20180422094337.zip
             description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: dgwwFhWgsKrVqyoFx9pUrENLpvfAYkr585ynDwzXQtc=
-            memorySize: '128'
-            modified: '2018-04-21T22:48:39.140+0000'
+            hashcode: OdzDkoNxvUQfVCG3+46gRZgrGsjMnYmCYps2eKqSWTU=
+            memorySize: '3008'
+            modified: '2018-04-22T16:44:08.410+0000'
             name: processZip
             runtime: nodejs6.10
-            timeout: '3'
-            version: f7M8qke2Jt.DWfwdBWAuXnN2dRiXUz4.
+            timeout: '300'
+            version: V9dRFjLkRqyJTJaI.T3vlvFABsUkKKiq
           '/process-zip/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/processZip-20180421154811.zip
+            codeFilename: uploads/processZip-20180422094337.zip
             description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: dgwwFhWgsKrVqyoFx9pUrENLpvfAYkr585ynDwzXQtc=
-            memorySize: '128'
-            modified: '2018-04-21T22:48:39.140+0000'
+            hashcode: OdzDkoNxvUQfVCG3+46gRZgrGsjMnYmCYps2eKqSWTU=
+            memorySize: '3008'
+            modified: '2018-04-22T16:44:08.410+0000'
             name: processZip
             runtime: nodejs6.10
-            timeout: '3'
-            version: RBMry01tmt6xT2LgRrimnGWCV8.Z9cTA
+            timeout: '300'
+            version: 2ASdc3WhLCwU6Pxd0fQMs4BzKOX5eX3T
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true

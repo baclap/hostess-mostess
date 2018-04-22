@@ -8,7 +8,8 @@
     "aws-sdk": "^2.49.0",
     "aws-serverless-express": "^2.2.0",
     "body-parser": "^1.17.1",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "extract-zip": "^1.6.6"
   },
   "devDependencies": {},
   "scripts": {
