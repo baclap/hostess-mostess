@@ -9,31 +9,35 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /process-zip: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/processZip-20180422094337.zip
+            codeFilename: uploads/processZip-20180423020900.zip
             description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
-            environment: {}
+            environment:
+              HOST_BUCKET: hostessmostess-static
+              ZIP_BUCKET: hostessmostess-userfiles-mobilehub-1526602926/public
             handler: lambda.handler
-            hashcode: OdzDkoNxvUQfVCG3+46gRZgrGsjMnYmCYps2eKqSWTU=
+            hashcode: P375UsVRtypvWo+HAvfeEOGB1kONv1XR7yZIaCeGMzE=
             memorySize: '3008'
-            modified: '2018-04-22T16:44:08.410+0000'
+            modified: '2018-04-23T09:09:34.488+0000'
             name: processZip
             runtime: nodejs6.10
             timeout: '300'
-            version: V9dRFjLkRqyJTJaI.T3vlvFABsUkKKiq
+            version: .Qm0RDeSHbbJtti5u.9qhPCPsa5CD0py
           '/process-zip/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/processZip-20180422094337.zip
+            codeFilename: uploads/processZip-20180423020900.zip
             description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
-            environment: {}
+            environment:
+              HOST_BUCKET: hostessmostess-static
+              ZIP_BUCKET: hostessmostess-userfiles-mobilehub-1526602926/public
             handler: lambda.handler
-            hashcode: OdzDkoNxvUQfVCG3+46gRZgrGsjMnYmCYps2eKqSWTU=
+            hashcode: P375UsVRtypvWo+HAvfeEOGB1kONv1XR7yZIaCeGMzE=
             memorySize: '3008'
-            modified: '2018-04-22T16:44:08.410+0000'
+            modified: '2018-04-23T09:09:34.488+0000'
             name: processZip
             runtime: nodejs6.10
             timeout: '300'
-            version: 2ASdc3WhLCwU6Pxd0fQMs4BzKOX5eX3T
+            version: PYmR9P51wehp3j79s98uuzYn_Cag6u.4
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true

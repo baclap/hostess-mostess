@@ -4,20 +4,30 @@ import Amplify, { API, Storage } from 'aws-amplify/dist/aws-amplify';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 
+// const slug = document.querySelector('#slug-input').value;
+// if (!slug) {
+//     return alert('You must enter a slug');
+// }
 // const file = event.target.files[0];
+// console.log('Slug:', slug);
 // console.log('File:', file);
 // Storage.put(file.name, file)
-//     .then (res => {
-//         console.log('S3 Response:', res);
+//     .then (({ key }) => {
+//         console.log('Key:', key);
 //         const init = {
 //             headers: {},
-//             body: { key: res.key },
+//             body: { slug, key },
 //             response: true
-//         }
-//         return API.post('processZip', '/process-zip', init)
-//             .then(res => {
-//                 console.log('Lambda Response:', res)
-//             });
+//         };
+//         return API.post('processZip', '/process-zip', init);
+//     })
+//     .then(res => {
+//         console.log('Lambda Response:', res);
+//         const a = document.createElement('a');
+//         const url = `http://hostessmostess-static.s3-website-us-east-1.amazonaws.com/${slug}/`;
+//         a.setAttribute('href', url);
+//         a.textContent = url;
+//         document.body.appendChild(a);
 //     })
 //     .catch(err => console.log(err));
 

@@ -4,9 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const AWS = require('aws-sdk');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-const extract = require('extract-zip');
-const path = require('path');
-const fs = require('fs');
+const fish = require('./lib/fish');
+const PromiseS3 = require('./lib/PromiseS3');
 
 const app = express();
 app.use(bodyParser.json());
@@ -19,87 +18,58 @@ app.use((req, res, next) => {
     next();
 });
 
-AWS.config.update({ region: process.env.REGION });
-const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+const { REGION, ZIP_BUCKET, HOST_BUCKET } = process.env;
 
-const CONTENT_TYPE_MAP = {
-    html: 'text/html',
-    gif: 'image/gif',
-    jpg: 'image/jpeg',
-    js: 'application/javascript',
-    png: 'image/png',
-    css: 'text/css'
-};
+const s3 = new AWS.S3({
+    apiVersion: '2006-03-01',
+    region: REGION
+});
+const ps3 = new PromiseS3(s3);
 
 app.post('/process-zip', (req, res) => {
-    console.log('URL:', req.url);
-    console.log('Body:', req.body);
-
-    const args = {
-        Bucket: 'hostessmostess-userfiles-mobilehub-1526602926/public',
-        Key: req.body.key
-    };
-    s3.getObject(args, (err, data) => {
-        if (err) {
-            console.error('Error getting S3 Object.', err.message);
+    const { key, slug } = req.body;
+    console.log(`Retrieving "${key}" from "${ZIP_BUCKET}"...`)
+    Promise.resolve()
+        .then(() => {
+            if (key.split('.').pop() !== 'zip') {
+                throw new Error('Invalid file format');
+            }
+        })
+        .then(() => ps3.fetch({ Bucket: ZIP_BUCKET, Key: key }))
+        .then(zipFile => {
+            console.log('zipFile:', JSON.stringify(zipFile, null, 2));
+            console.log('Cleaning tmp...');
+            fish.clean('/tmp/zip');
+            fish.clean('/tmp/src');
+            console.log('Placing zip...');
+            fish.place('/tmp/zip/project.zip', zipFile);
+            console.log('Extracting zip...');
+            return fish.extract({ from: '/tmp/zip/project.zip', to: '/tmp/project' });
+        })
+        .then(() => {
+            console.log('Reading project dir...');
+            const projectDirContent = fish.readDir('/tmp/project');
+            console.log('projectDirContent:', JSON.stringify(projectDirContent, null, 2));
+            const src = projectDirContent[0];
+            console.log('Reading src dir...');
+            const srcFileNames = fish.readDir(`/tmp/project/${src}`);
+            return Promise.all(
+                srcFileNames.map(fileName => ps3.put({
+                    Bucket: HOST_BUCKET,
+                    Key: `${slug}/${fileName}`,
+                    file: fish.readFile(`/tmp/project/${src}/${fileName}`)
+                }))
+            );
+        })
+        .then(() => {
+            return res.json({ success: true });
+        })
+        .catch(err => {
+            console.error('EXECUTION_FAILURE');
+            console.error(err.stack);
             res.status(500);
             return res.json({ success: false });
-        }
-        console.log('Test Data:', data);
-
-        if (fs.existsSync('/tmp/zip')) {
-            fs.rmdirSync('/tmp/zip');
-        }
-        if (fs.existsSync('/tmp/files')) {
-            fs.rmdirSync('/tmp/files');
-        }
-        fs.mkdirSync('/tmp/zip');
-        fs.mkdirSync('/tmp/files');
-        fs.writeFileSync('/tmp/zip/files.zip', data.Body);
-
-        const tempDir = '/tmp/files';
-        extract('/tmp/zip/files.zip', { dir: '/tmp/files' }, (err) => {
-            if (err) {
-                console.error('Error extracting zip.', err.message);
-                res.status(500);
-                return res.json({ success: false });
-            }
-            const zipFiles = fs.readdirSync('/tmp/files');
-            console.log('Zip Files:', JSON.stringify(zipFiles, null, 2));
-            const dirName = zipFiles[0];
-            const files = fs.readdirSync(`/tmp/files/${dirName}`);
-            console.log('Dir Files:', JSON.stringify(files, null, 2));
-
-            const uploadToS3 = file => new Promise((resolve, reject) => {
-                const extension = file.split('.').pop();
-                const args = {
-                    Bucket: `hostess-mostess-uploads/${dirName}`,
-                    Key: file,
-                    ContentType: CONTENT_TYPE_MAP[extension],
-                    Body: fs.readFileSync(`/tmp/files/${dirName}/${file}`)
-                };
-                s3.putObject(args, (err, data) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(data);
-                });
-            });
-
-            Promise.all(files.map(uploadToS3))
-                .then(() => {
-                    console.log('UPLOAD SUCCESS');
-                    res.json({ success: true });
-                })
-                .catch(err => {
-                    console.error('S3 Upload Failed.', err.message);
-                    res.status(500);
-                    return res.json({ success: false });
-                });
         });
-
-    });
-
 });
 
 app.listen(3000, () => {
