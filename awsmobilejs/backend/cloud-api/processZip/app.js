@@ -19,6 +19,9 @@ app.use((req, res, next) => {
 });
 
 const { REGION, ZIP_BUCKET, HOST_BUCKET } = process.env;
+const ZIP_DIR = '/tmp/zip';
+const ZIP_FILE_NAME = 'project.zip';
+const PROJECT_DIR = '/tmp/project';
 
 const s3 = new AWS.S3({
     apiVersion: '2006-03-01',
@@ -28,7 +31,7 @@ const ps3 = new PromiseS3(s3);
 
 app.post('/process-zip', (req, res) => {
     const { key, slug } = req.body;
-    console.log(`Retrieving "${key}" from "${ZIP_BUCKET}"...`)
+    console.log(`Retrieving "${key}" from "${ZIP_BUCKET}"...`);
     Promise.resolve()
         .then(() => {
             if (key.split('.').pop() !== 'zip') {
@@ -39,20 +42,20 @@ app.post('/process-zip', (req, res) => {
         .then(zipFile => {
             console.log('zipFile:', JSON.stringify(zipFile, null, 2));
             console.log('Cleaning tmp...');
-            fish.clean('/tmp/zip');
-            fish.clean('/tmp/src');
+            fish.clean(ZIP_DIR);
+            fish.clean(PROJECT_DIR);
             console.log('Placing zip...');
-            fish.place('/tmp/zip/project.zip', zipFile);
+            fish.place(`${ZIP_DIR}/${ZIP_FILE_NAME}`, zipFile);
             console.log('Extracting zip...');
-            return fish.extract({ from: '/tmp/zip/project.zip', to: '/tmp/project' });
+            return fish.extract({ from: `${ZIP_DIR}/${ZIP_FILE_NAME}`, to: PROJECT_DIR });
         })
         .then(() => {
             console.log('Reading project dir...');
-            const projectDirContent = fish.readDir('/tmp/project');
+            const projectDirContent = fish.readDir(PROJECT_DIR);
             console.log('projectDirContent:', JSON.stringify(projectDirContent, null, 2));
             const src = projectDirContent[0];
             console.log('Reading src dir...');
-            const srcFileNames = fish.readDir(`/tmp/project/${src}`);
+            const srcFileNames = fish.readDir(`${PROJECT_DIR}/${src}`);
             return Promise.all(
                 srcFileNames.map(fileName => ps3.put({
                     Bucket: HOST_BUCKET,
@@ -62,6 +65,7 @@ app.post('/process-zip', (req, res) => {
             );
         })
         .then(() => {
+            console.log('SUCCESS');
             return res.json({ success: true });
         })
         .catch(err => {
@@ -73,7 +77,7 @@ app.post('/process-zip', (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log('App started');
+    console.log('APP_STARTED');
 });
 
 module.exports = app;

@@ -20,8 +20,8 @@ class PromiseS3 {
             this._s3.getObject({ Bucket, Key }, (err, data) => {
                 if (err) {
                     console.error('S3_FETCH_FAILED:', err.message);
-                    return reject(err)
-                };
+                    return reject(err);
+                }
                 resolve(data.Body);
             });
         });

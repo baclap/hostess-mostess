@@ -1,27 +1,26 @@
 'use strict';
 
-const path = require('path');
 const fs = require('fs');
 const extract = require('extract-zip');
 
 // fs helpers (fish)
 module.exports = {
+    // https://stackoverflow.com/questions/18052762/remove-directory-which-is-not-empty
+    deleteFolderRecursive(path) {
+        fs.readdirSync(path).forEach(file => {
+            var curPath = `${path}/${file}`;
+            if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                this.deleteFolderRecursive(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    },
     clean(dirPath) {
         try {
             if (fs.existsSync(dirPath)) {
-                // https://stackoverflow.com/questions/18052762/remove-directory-which-is-not-empty
-                function deleteFolderRecursive(path) {
-                    fs.readdirSync(path).forEach(file => {
-                        var curPath = `${path}/${file}`;
-                        if (fs.lstatSync(curPath).isDirectory()) { // recurse
-                            deleteFolderRecursive(curPath);
-                        } else { // delete file
-                            fs.unlinkSync(curPath);
-                        }
-                    });
-                    fs.rmdirSync(path);
-                }
-                deleteFolderRecursive(dirPath);
+                this.deleteFolderRecursive(dirPath);
             }
             fs.mkdirSync(dirPath);
         } catch (err) {
