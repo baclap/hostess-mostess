@@ -31,11 +31,24 @@ const ps3 = new PromiseS3(s3);
 
 app.post('/process-zip', (req, res) => {
     const { key, slug } = req.body;
+    const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '').toLowerCase();
     console.log(`Retrieving "${key}" from "${ZIP_BUCKET}"...`);
     Promise.resolve()
         .then(() => {
             if (key.split('.').pop() !== 'zip') {
                 throw new Error('Invalid file format');
+            }
+            console.log('Fetching HOST_BUCKET objects...');
+            return ps3.list({ Bucket: HOST_BUCKET });
+        })
+        .then(data => {
+            console.log('Validating slug...');
+            const existingSlugs = new Set(
+                data.Contents.map(obj => obj.Key.split('/')[0])
+            );
+            console.log('existingSlugs:', JSON.stringify(existingSlugs, null, 2));
+            if (existingSlugs.has(sanitizedSlug)) {
+                throw new Error('Slug already in use');
             }
         })
         .then(() => ps3.fetch({ Bucket: ZIP_BUCKET, Key: key }))
@@ -59,20 +72,20 @@ app.post('/process-zip', (req, res) => {
             return Promise.all(
                 srcFileNames.map(fileName => ps3.put({
                     Bucket: HOST_BUCKET,
-                    Key: `${slug}/${fileName}`,
-                    file: fish.readFile(`/tmp/project/${src}/${fileName}`)
+                    Key: `${sanitizedSlug}/${fileName}`,
+                    file: fish.readFile(`${PROJECT_DIR}/${src}/${fileName}`)
                 }))
             );
         })
         .then(() => {
             console.log('SUCCESS');
-            return res.json({ success: true });
+            return res.json({ success: true, slug: sanitizedSlug });
         })
         .catch(err => {
             console.error('EXECUTION_FAILURE');
             console.error(err.stack);
             res.status(500);
-            return res.json({ success: false });
+            return res.json({ success: false, error: err.message });
         });
 });
 

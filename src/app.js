@@ -11,7 +11,10 @@ Amplify.configure(aws_exports);
 // const file = event.target.files[0];
 // console.log('Slug:', slug);
 // console.log('File:', file);
-// Storage.put(file.name, file)
+// if (file.name.split('.').pop() !== 'zip') {
+//     return alert('You must upload a .zip file');
+// }
+// Storage.put(`upload_${Date.now()}.zip`, file)
 //     .then (({ key }) => {
 //         console.log('Key:', key);
 //         const init = {
@@ -24,7 +27,7 @@ Amplify.configure(aws_exports);
 //     .then(res => {
 //         console.log('Lambda Response:', res);
 //         const a = document.createElement('a');
-//         const url = `http://hostessmostess-static.s3-website-us-east-1.amazonaws.com/${slug}/`;
+//         const url = `http://hostessmostess-static.s3-website-us-east-1.amazonaws.com/${res.data.slug}/`;
 //         a.setAttribute('href', url);
 //         a.textContent = url;
 //         document.body.appendChild(a);

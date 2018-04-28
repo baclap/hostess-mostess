@@ -44,6 +44,18 @@ class PromiseS3 {
             });
         });
     }
+    list({ Bucket }) {
+        return new Promise((resolve, reject) => {
+            const args = { Bucket };
+            this._s3.listObjects(args, (err, data) => {
+                if (err) {
+                    console.error('S3_LIST_FAILED:', err.message);
+                    return reject(err);
+                }
+                resolve(data);
+            });
+        });
+    }
 }
 
 module.exports = PromiseS3;
