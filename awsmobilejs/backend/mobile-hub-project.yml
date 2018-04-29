@@ -9,35 +9,35 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /process-zip: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/processZip-20180428201204.zip
+            codeFilename: uploads/processZip-20180428221436.zip
             description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
             environment:
               HOST_BUCKET: hostessmostess-static
               ZIP_BUCKET: hostessmostess-userfiles-mobilehub-1526602926/public
             handler: lambda.handler
-            hashcode: KGAsP2CcDip+89Mw2S/9Py4Chp9rxfQ8IeaMllxZ6Hw=
+            hashcode: LG+zQwRzbmK6IQagGOx4BMMk2q7NGZD9eTrxDXl+4JU=
             memorySize: '3008'
-            modified: '2018-04-29T03:12:31.650+0000'
+            modified: '2018-04-29T05:15:08.684+0000'
             name: processZip
             runtime: nodejs6.10
             timeout: '300'
-            version: DuTjB5_BZaWV2a6jzk7eLIxLNCVLX3ot
+            version: hE9jKzQ2VoVcPlVsks7DKGsFvr65VYPh
           '/process-zip/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/processZip-20180428201204.zip
+            codeFilename: uploads/processZip-20180428221436.zip
             description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
             environment:
               HOST_BUCKET: hostessmostess-static
               ZIP_BUCKET: hostessmostess-userfiles-mobilehub-1526602926/public
             handler: lambda.handler
-            hashcode: KGAsP2CcDip+89Mw2S/9Py4Chp9rxfQ8IeaMllxZ6Hw=
+            hashcode: LG+zQwRzbmK6IQagGOx4BMMk2q7NGZD9eTrxDXl+4JU=
             memorySize: '3008'
-            modified: '2018-04-29T03:12:31.650+0000'
+            modified: '2018-04-29T05:15:08.684+0000'
             name: processZip
             runtime: nodejs6.10
             timeout: '300'
-            version: 6GppN4F22QEz3wbfdnfa2cPGKoWDEkyd
+            version: 0YI1RQmCRe_lMP71yxElFMnQDhOvxcvI
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true

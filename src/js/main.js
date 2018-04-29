@@ -1,5 +1,4 @@
-// default exported Amplify code is not transpiled, so grab from dist
-import Amplify, { API, Storage } from 'aws-amplify/dist/aws-amplify';
+import Amplify, { API, Storage } from './hack-aws-amplify';
 import aws_exports from '../aws-exports';
 import mdl from './mdl';
 
