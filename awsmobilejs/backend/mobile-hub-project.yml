@@ -2,38 +2,42 @@
 features:
   cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
     components:
-      sampleCloudApi: !com.amazonaws.mobilehub.v0.API 
+      processZip: !com.amazonaws.mobilehub.v0.API 
         attributes:
-          name: sampleCloudApi
+          name: processZip
           requires-signin: false
           sdk-generation-stage-name: Development
         paths:
-          /items: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180414203531.zip
-            description: 'Handler for calls to resource path : /items/{proxy+}'
+          /process-zip: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/processZip-20180428201204.zip
+            description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
-            environment: {}
+            environment:
+              HOST_BUCKET: hostessmostess-static
+              ZIP_BUCKET: hostessmostess-userfiles-mobilehub-1526602926/public
             handler: lambda.handler
-            hashcode: 8Tyls2zk8gNLmiObjFO9rpfZ7d4G4NRvYGoQxx4z5Ns=
-            memorySize: '128'
-            modified: '2018-04-15T03:35:59.124+0000'
-            name: sampleLambda
+            hashcode: KGAsP2CcDip+89Mw2S/9Py4Chp9rxfQ8IeaMllxZ6Hw=
+            memorySize: '3008'
+            modified: '2018-04-29T03:12:31.650+0000'
+            name: processZip
             runtime: nodejs6.10
-            timeout: '3'
-            version: 2ZVwtFeKLRijlLznCJKj2F7dLgYaTccI
-          '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180414203531.zip
-            description: 'Handler for calls to resource path : /items/{proxy+}'
+            timeout: '300'
+            version: DuTjB5_BZaWV2a6jzk7eLIxLNCVLX3ot
+          '/process-zip/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/processZip-20180428201204.zip
+            description: 'Handler for calls to resource path : /process-zip/{proxy+}'
             enableCORS: true
-            environment: {}
+            environment:
+              HOST_BUCKET: hostessmostess-static
+              ZIP_BUCKET: hostessmostess-userfiles-mobilehub-1526602926/public
             handler: lambda.handler
-            hashcode: 8Tyls2zk8gNLmiObjFO9rpfZ7d4G4NRvYGoQxx4z5Ns=
-            memorySize: '128'
-            modified: '2018-04-15T03:35:59.124+0000'
-            name: sampleLambda
+            hashcode: KGAsP2CcDip+89Mw2S/9Py4Chp9rxfQ8IeaMllxZ6Hw=
+            memorySize: '3008'
+            modified: '2018-04-29T03:12:31.650+0000'
+            name: processZip
             runtime: nodejs6.10
-            timeout: '3'
-            version: BcsjCiusjT4mCWt0kRDpriOVnV_Q1aA9
+            timeout: '300'
+            version: 6GppN4F22QEz3wbfdnfa2cPGKoWDEkyd
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
@@ -44,5 +48,9 @@ features:
     components:
       analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
   sign-in: !com.amazonaws.mobilehub.v0.SignIn {}
+  user-files: !com.amazonaws.mobilehub.v0.UserFiles 
+    attributes:
+      enabled: true
+      wildcard-cors-policy: true
 name: hostess-mostess-2018-04-14-15-49-59
 region: us-east-1
