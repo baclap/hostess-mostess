@@ -24,9 +24,16 @@ function handleUploadClick() {
     uploadFileInput.accept = '.zip';
     uploadFileInput.addEventListener('change', (event) => {
         console.log(event);
+        modalBackground.classList.toggle('hidden');
+        uploadModal.classList.toggle('hidden');
     });
     uploadFileInput.click();
 }
 
 const uploadButton = document.querySelector('.upload-file-button');
 uploadButton.addEventListener('click', handleUploadClick);
+
+const modalBackground = document.querySelector('.modal-background');
+const uploadModal = document.querySelector('.uploading-modal');
+const successModal = document.querySelector('.success-modal');
+const errorModal = document.querySelector('.error-modal');

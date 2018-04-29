@@ -1,0 +1,63 @@
+.modal-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .2);
+    display: flex;
+    justify-content: center;
+}
+
+.modal-background.hidden {
+    display: none;
+}
+
+.modal {
+    text-align: center;
+    font-size: 2em;
+    border: 2px solid dimgray;
+    width: 600px;
+    height: 300px;
+    padding: 25px 0;
+    font-weight: bold;
+    color: dimgray;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    margin-top: 125px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.loading-icon {
+    font-size: 3em;
+    margin-bottom: 30px;
+    color: dodgerblue;
+}
+
+.success-icon {
+    font-size: 3em;
+    margin-bottom: 30px;
+    color: green;
+}
+
+.error-icon {
+    font-size: 3em;
+    margin-bottom: 30px;
+    color: red;
+}
+
+.error-message {
+    font-size: .5em;
+    font-weight: normal;
+    text-transform: none;
+    margin-top: 10px;
+}

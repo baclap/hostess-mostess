@@ -3,6 +3,7 @@
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
         <title><%= htmlWebpackPlugin.options.title %></title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     </head>
     <body>
         <main>
@@ -16,5 +17,20 @@
             </div>
             <p class="directions">Zip up your website folder and upload it here. We'll host it on the web!</p>
         </main>
+        <div class="modal-background hidden">
+            <div class="uploading-modal modal hidden">
+                <i class="fas fa-spinner fa-spin fa-pulse loading-icon"></i>
+                <span>Uploading</span>
+            </div>
+            <div class="success-modal modal hidden">
+                <i class="fas fa-check-circle success-icon"></i>
+                <span>Success</span>
+            </div>
+            <div class="error-modal modal hidden">
+                <i class="fas fa-exclamation-circle error-icon"></i>
+                <span>Error</span>
+                <span class="error-message">You must upload a .zip file!</span>
+            </div>
+        </div>
     </body>
 </html>
