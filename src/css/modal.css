@@ -37,6 +37,13 @@
     display: none;
 }
 
+.modal-message {
+    font-size: .5em;
+    font-weight: normal;
+    text-transform: none;
+    margin-top: 10px;
+}
+
 .loading-icon {
     font-size: 3em;
     margin-bottom: 30px;
@@ -53,11 +60,4 @@
     font-size: 3em;
     margin-bottom: 30px;
     color: red;
-}
-
-.error-message {
-    font-size: .5em;
-    font-weight: normal;
-    text-transform: none;
-    margin-top: 10px;
 }

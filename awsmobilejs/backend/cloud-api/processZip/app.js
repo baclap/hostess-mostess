@@ -18,18 +18,19 @@ app.use((req, res, next) => {
     next();
 });
 
-const { REGION, ZIP_BUCKET, HOST_BUCKET } = process.env;
+const { AWS_REGION, ZIP_BUCKET, HOST_BUCKET } = process.env;
 const ZIP_DIR = '/tmp/zip';
 const ZIP_FILE_NAME = 'project.zip';
 const PROJECT_DIR = '/tmp/project';
 
 const s3 = new AWS.S3({
     apiVersion: '2006-03-01',
-    region: REGION
+    region: AWS_REGION
 });
 const ps3 = new PromiseS3(s3);
 
 app.post('/process-zip', (req, res) => {
+    console.log('process.env:', JSON.stringify(process.env, null, 2));
     const { key, slug } = req.body;
     const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '').toLowerCase();
     console.log(`Retrieving "${key}" from "${ZIP_BUCKET}"...`);
@@ -79,12 +80,14 @@ app.post('/process-zip', (req, res) => {
         })
         .then(() => {
             console.log('SUCCESS');
-            return res.json({ success: true, slug: sanitizedSlug });
+            return res.json({
+                success: true,
+                url: `http://${HOST_BUCKET}.s3-website-${AWS_REGION}.amazonaws.com/${sanitizedSlug}/`
+            });
         })
         .catch(err => {
             console.error('EXECUTION_FAILURE');
             console.error(err.stack);
-            res.status(500);
             return res.json({ success: false, error: err.message });
         });
 });
